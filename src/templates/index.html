@@ -3,11 +3,10 @@
         <meta charset="UTF-8">
     </head>
     <body>
-        <h1>{{ num }}　は
-            {% if num % 2 == 0 %}
-            偶数</h1>
-            {% else %}
-            奇数 </h1>
-            {% endif %}
+        <ul>
+            {% for item in list %}
+                <li>{{ item }}</li>
+            {% endfor %}
+        </ul>
     </body>
 </html>
