@@ -4,8 +4,8 @@
     </head>
     <body>
         <ul>
-            {% for item in list %}
-                <li>{{ item }}</li>
+            {% for key in list %}
+                <li>{{ key }} {{ list[key] }}</li>
             {% endfor %}
         </ul>
     </body>

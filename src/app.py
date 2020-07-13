@@ -4,7 +4,8 @@ app = Flask(__name__)
 @app.route('/')
 
 def hello_world():
-    return render_template('index.html', list=["アイテム１", "アイテム２", "アイテム３"])
+    list = {'apple':'リンゴ', 'orange':'みかん', 'lemon':'レモン'}
+    return render_template('index.html', list=list)
 
 if __name__ == '__main__':
     app.debug = True
