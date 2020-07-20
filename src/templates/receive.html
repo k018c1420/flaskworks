@@ -1,0 +1,12 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        {% if message != '' %}
+            <h1>サーバで受け取ったメッセージ：{{ message }}</h1>
+        {% else %}
+            <h1>受け取ったメッセージはありません</h1>
+        {% endif %}
+    </body>
+</html>
