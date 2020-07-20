@@ -1,0 +1,21 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <form method="post" action="/send">
+            <p>入力歩数 : <input type="number" id="msg" name="msg"></p>
+            <input type="submit" value="送信">
+        </form>
+        <hr>
+        <h1>平均歩数：{{ avg }}</h1>
+        {% if msgList != [] %}
+        <ul>
+        {% for i in msgList %}
+            <li>{{ i.dt }}　歩数：{{ i.msg }}</li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+        
+    </body>
+</html>

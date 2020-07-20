@@ -1,0 +1,12 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        {% if msgName != '' and msgMail != '' %}
+            <h1>{{ msgName }}：{{ msgMail}}を受け取りました</h1>
+        {% else %}
+            <h1>入力エラー</h1>
+        {% endif %}
+    </body>
+</html>
