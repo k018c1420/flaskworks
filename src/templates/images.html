@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+    </head>
+
+    <body>
+        {% for file in files %}
+            <img src="./static/uploads/{{ file }}" width="200" height="200" >
+        {% endfor %}
+    </body>
+</html>
