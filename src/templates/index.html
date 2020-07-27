@@ -3,8 +3,8 @@
         <meta charset="UTF-8">
     </head>
     <body>
-        <form method="post" action="/send">
-            <input type="text" id="msg" name="msg">
+        <form method="post" action="/send" enctype="multipart/form-data">
+            <input type="file" id="img_file" name="img_file">
             <input type="submit" value="送信">
         </form>
     </body>
