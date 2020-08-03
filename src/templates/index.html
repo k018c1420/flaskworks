@@ -3,6 +3,14 @@
         <meta charset="UTF-8">
     </head>
     <body>
+        <form method="post" action="/send">
+            <label for="title">書籍</label>
+            <input type="text" id="title" name="title">
+            <label for="price">価格</label>
+            <input type="number" id="price" name="price">
+            <input type="submit" value="送信">
+        </form>
+
         <table>
             <tr><th>書籍</th><th>価格</th></tr>
             {% for (id, title, price) in books %}
