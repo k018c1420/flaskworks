@@ -29,8 +29,14 @@ def send():
         return redirect('/')
     conn = db.connect(**db_param)       
     cur = conn.cursor()
-    stmt = 'INSERT INTO books(title, price) VALUES(%s, %s)' 
-    cur.execute(stmt, (title, int(price)))  #   VALUES(title, price)
+    
+    stmt = 'SELECT * From books WHERE title=%s'
+    cur.execute(stmt, (title,))
+    rows = cur.fetchall()
+    if len(rows) == 0:
+        cur.execute('INSERT INTO books(title, price) VALUES(%s, %s)', (title, int(price)))
+    else:
+        cur.execute('UPDATE books SET price=%s WHERE title=%s', (int(price), title))
     conn.commit()
     cur.close()
     conn.close()
