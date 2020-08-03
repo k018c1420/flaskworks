@@ -33,6 +33,7 @@ def send():
     stmt = 'SELECT * From books WHERE title=%s'
     cur.execute(stmt, (title,))
     rows = cur.fetchall()
+    # select文の結果がなければ（入力したtitleが存在しなければ）INSERT、あればUPDATE文を実行する
     if len(rows) == 0:
         cur.execute('INSERT INTO books(title, price) VALUES(%s, %s)', (title, int(price)))
     else:
