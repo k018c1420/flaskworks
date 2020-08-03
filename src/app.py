@@ -1,31 +1,30 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, session
 import os
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = './static/uploads/'
 
-ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
-
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+app.config['SECRET_KEY'] = os.urandom(24)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
-
-@app.route('/send', methods=['POST'])
-def send():
-    img_file = request.files['img_file']
-    if img_file and allowed_file(img_file.filename):
-        img_file.save(app.config['UPLOAD_FOLDER'] + img_file.filename)
-        return '<p>画像' + img_file.filename + 'を送信しました</p>'
+    #   ログインしている場合はindexを、していない場合はlogin.htmlを表示する
+    if 'username' in session:  
+        return render_template('index.html', username=str(session['username']))
     else:
-        return '<p>許可されていない拡張子です</p>'
+        return render_template('login.html')
 
-@app.route('/images')
-def images():
-   files = os.listdir(path=app.config['UPLOAD_FOLDER'])
-   return render_template('images.html', files=files)
+@app.route('/login', methods=['POST'])
+def login():
+    #  フォームの値をセッションのusernameとして格納し、/ にリダイレクト
+    if request.form.get('username'):
+        session['username'] = request.form.get('username')
+    return redirect('/')
+
+@app.route('/logout')
+def logout():
+    #   セッション変数usernameを取り除き、login.htmlを表示
+    session.pop('username', None)
+    return render_template('login.html')
 
 if __name__ == '__main__' :
     app.debug = True
