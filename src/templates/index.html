@@ -11,11 +11,17 @@
             <input type="submit" value="送信">
         </form>
 
-        <table>
-            <tr><th>書籍</th><th>価格</th></tr>
-            {% for (id, title, price) in books %}
-                <tr><td>{{ title }}</td><td>{{ price }}円</td></tr>
-            {% endfor %}
-        </table>
+        <hr>
+        <form method="post" action="/delete">
+            <input type="submit" value="削除"><br>
+            <table>
+                <tr><th></th><th>書籍</th><th>価格</th></tr>
+                {% for (id, title, price) in books %}
+                    <!-- 行のidがついたチェックボックスを追加 -->
+                    <tr><td><input type="checkbox" name="del_list" value="{{ id }}"></td>   
+                    <td>{{ title }}</td><td>{{ price }}円</td></tr>
+                {% endfor %}
+            </table>
+        </form>
     </body>
 </html>
