@@ -41,9 +41,9 @@ def delete():
     del_list = request.form.getlist('del_list') #   削除対象のidをリスト化
     conn = db.connect(**db_param)
     cur = conn.cursor()
-    stmt = 'DELETE FROM books WHERE id=%s'
+    stmt = 'DELETE FROM books WHERE id=%s'  #   列削除クエリ
     for id in del_list:
-        cur.execute(stmt, (id,))
+        cur.execute(stmt, (id,))    #   クエリをidのリスト全て実行
     conn.commit()
     cur.close()
     conn.close()
