@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, jsonify
 import mysql.connector as db
+import os
 
 db_param = {
     'user' : 'mysql',
@@ -58,9 +59,13 @@ def delete():
     del_list = request.form.getlist('del_list') #   削除対象のidをリスト化
     conn = db.connect(**db_param)
     cur = conn.cursor()
-    stmt = 'DELETE FROM books WHERE id=%s'  #   列削除クエリ
     for id in del_list:
-        cur.execute(stmt, (id,))    #   クエリをidのリスト全て実行
+        stmt = 'SELECT * FROM list WHERE id=%s'  #   列削除クエリ
+        cur.execute(stmt, (id,))               #   クエリをidのリスト全て実行
+        rows = cur.fetchall()
+        os.remove('./static/uploads/' + rows[0][3])
+        stmt = 'DELETE FROM list WHERE id=%s'
+        cur.execute(stmt, (id,))
     conn.commit()
     cur.close()
     conn.close()
