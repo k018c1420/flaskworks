@@ -71,6 +71,27 @@ def delete():
     conn.close()
     return redirect('/')
 
+@app.route('/data', methods=['GET'])
+def data():
+    keyword = request.args.get('keyword')
+    conn = db.connect(**db_param)
+    cur = conn.cursor()
+    if keyword and keyword != "":
+        stmt = 'SELECT * FROM list WHERE title LIKE %s'
+        cur.execute(stmt, ('%'+keyword+'%',))
+    else:
+        stmt = 'SELECT * FROM list'
+        cur.execute(stmt)
+    rows = cur.fetchall()
+    url = 'http://127.0.0.1:5000/static/uploads/'   # <-
+    data = []
+    for id, title, price, image in rows:
+        data.append({'id':id, 'title':title, 'price':price, 'image':url+image})
+    ret = jsonify({"result":data})
+    return ret
+
+
+
 if __name__ == '__main__' :
     app.debug = True
     app.run()
