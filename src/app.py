@@ -27,6 +27,44 @@ def index():
     conn.close()                        #   db接続解除
     return render_template('index.html', list=rows)
 
+@app.route('/send', methods=['POST'])
+def send():
+    title = request.form.get('title')   #   フォームからtitle取得
+    price = request.form.get('price')   #   フォームからprice取得
+    image = request.files['img_file']
+    if title == "" or price == "":      #   フォームが空だったら戻る
+        return redirect('/')
+
+    if image and allowed_file(image.filename):  #   許可された拡張子であれば画像を保存
+        image.save('static/uploads/' + image.filename)
+    conn = db.connect(**db_param)       
+    cur = conn.cursor()
+    
+    stmt = 'SELECT * From list WHERE title=%s'
+    cur.execute(stmt, (title,))
+    rows = cur.fetchall()
+    # select文の結果がなければ（入力したtitleが存在しなければ）INSERT、あればUPDATE文を実行する
+    if len(rows) == 0:
+        cur.execute('INSERT INTO list(title, price, image) VALUES(%s, %s, %s)', (title, int(price), image.filename))
+    else:
+        cur.execute('UPDATE list SET price=%s, image=%s WHERE title=%s', (int(price), title, image.filename))
+    conn.commit()
+    cur.close()
+    conn.close()
+    return redirect('/')
+
+@app.route('/delete', methods=['POST'])
+def delete():
+    del_list = request.form.getlist('del_list') #   削除対象のidをリスト化
+    conn = db.connect(**db_param)
+    cur = conn.cursor()
+    stmt = 'DELETE FROM books WHERE id=%s'  #   列削除クエリ
+    for id in del_list:
+        cur.execute(stmt, (id,))    #   クエリをidのリスト全て実行
+    conn.commit()
+    cur.close()
+    conn.close()
+    return redirect('/')
 
 if __name__ == '__main__' :
     app.debug = True
