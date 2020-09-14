@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+    </head>
+    
+    <body>
+        <p>{{ username }}のToDoリスト</p>
+        <a href="/logout">ログアウト</a>
+
+        <hr>
+
+        <form method="post" action="/send" enctype="multipart/form-data">
+            <label for="title">追加項目：</label>
+            <input type="text" id="title" name="title">
+            <input type="submit" value="送信">
+        </form>
+
+        <hr>
+
+        <form method="post" action="/delete">
+            <input type="submit" value="削除"><br>
+            <table>
+                <tr><th></th><th>日付</th><th>タイトル</th></tr>
+                {% for (id, date, title) in list %}
+                    <!-- 行のidがついたチェックボックスを追加 -->
+                    <tr><td><input type="checkbox" name="del_list" value="{{ id }}"></td>   
+                    <td>{{ date }}</td><td>{{ title }}</td></tr>
+                {% endfor %}
+            </table>
+        </form>
+    </body>
+</html>
